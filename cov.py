@@ -2,32 +2,26 @@ import pandas as pd
 import numpy
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer 
 from nltk import tokenize
+import matplotlib.pyplot as plt
 
 df = pd.read_csv('news.csv')
+df['publish_date'] = df['publish_date'].apply(lambda x: x.split()[0])
 df['publish_date'] = pd.to_datetime(df['publish_date'])
-# print(df['publish_date'])
-# print(df.info())
-df=df.sort_values(by=['publish_date'])
-df=df.drop(df.index[:3])
+df = df[df['publish_date']>pd.to_datetime('2019')]
 
-print(df['publish_date'])
 sid = SentimentIntensityAnalyzer()
+
+data = pd.DataFrame(columns=['date', 'negative', 'positive'])
 for row in df.itertuples():
-    #print(row)
+   
     text = row.text
-    print(text)
     ss = sid.polarity_scores(text)
-    for k in sorted(ss):
-        print('{0}: {1}, '.format(k, ss[k]) )
-    print()
-    texttokens = tokenize.sent_tokenize(text)
-    for token in texttokens:
-        print(token)
-        ss = sid.polarity_scores(token)
-        for k in sorted(ss):
-            print('{0}: {1}, '.format(k, ss[k]))
-
-
-    break
-
-
+    
+    data = data.append({
+      'date':row.publish_date,
+      'negative':ss['neg'],
+      'positive':ss['pos']
+      },ignore_index=True)
+data = data.groupby('date').mean()
+print(data)
+data.plot(figsize=(20,10))

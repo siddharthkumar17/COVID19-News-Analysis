@@ -12,4 +12,6 @@ This is the result of plotting the sentiment analysis over the generated summary
 
 ![Alt text](newsapiplot.png)
 
-This is the result of plotting the sentiment analysis over the beginning 1000:
+This is the result of plotting the sentiment analysis over the beginning 250 characters of the article which is all that is returned by the API:
+
+![Alt text](newsapiplotcontent.png)

@@ -4,6 +4,8 @@ import json
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer 
+import pandas as pd
+
 spark = SparkSession.builder.master("local").appName("News Analysis").getOrCreate()
 sc = spark.sparkContext
 df = spark.read.json("/FileStore/tables/data.json")
@@ -24,4 +26,5 @@ for row in df.toLocalIterator():
       }])
     data = data.union(newrow)
 
-display(data.groupBy('date').avg())
+pdf = data.toPandas().groupby('date').mean()
+pdf.plot(figsize=(20,10),title='NewsAPI Dataset Sentiment Analysis')

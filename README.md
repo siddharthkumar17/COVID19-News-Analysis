@@ -7,4 +7,6 @@ This is the generated graph using pandas plot function:
 
 ![Alt text](cbcnewsdatasetplot.png)
 
-The next stage will be to use PySpark to do a similar sentiment analysis using NewsAPI for a larger and broader dataset.
+The next stage will be to use PySpark to do a similar sentiment analysis using NewsAPI for a broader dataset.
+
+![Alt text](newsapiplot.png)
